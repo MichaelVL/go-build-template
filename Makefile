@@ -33,7 +33,7 @@ ALL_PLATFORMS ?= linux/amd64 linux/arm linux/arm64 linux/ppc64le linux/s390x
 BASE_IMAGE ?= gcr.io/distroless/static
 
 # Where to push the docker images.
-REGISTRY ?= example.com
+REGISTRY ?= ghcr.io/michaelvl
 
 # This version-strategy uses git tags to set the version string
 VERSION ?= $(shell git describe --tags --always --dirty)
@@ -284,8 +284,6 @@ manifest-list: all-push
 	for bin in $(BINS); do                                    \
 	    platforms=$$(echo $(ALL_PLATFORMS) | sed 's/ /,/g');  \
 	    bin/tools/manifest-tool                               \
-	        --username=oauth2accesstoken                      \
-	        --password=$$(gcloud auth print-access-token)     \
 	        push from-args                                    \
 	        --platforms "$$platforms"                         \
 	        --template $(REGISTRY)/$$bin:$(VERSION)__OS_ARCH  \
@@ -344,10 +342,16 @@ $(BUILD_DIRS):
 	mkdir -p $@
 
 clean: # @HELP removes built binaries and temporary files
-clean: container-clean bin-clean
+clean: container-clean container-image-clean bin-clean
 
 container-clean:
 	rm -rf .container-* .dockerfile-* .push-* .buildx-initialized $(LICENSES)
+
+container-image-clean: # @HELP removes built container images
+container-image-clean:
+	for bin in $(BINS); do                                          \
+	  docker image ls $(REGISTRY)/$$bin -q | xargs docker image rm; \
+	done
 
 bin-clean:
 	test -d .go && chmod -R u+w .go || true
