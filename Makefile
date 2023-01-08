@@ -388,6 +388,9 @@ lint: | $(BUILD_DIRS)
 	    $(BUILD_IMAGE)                                          \
 	    ./build/lint.sh ./...
 
+fmt:
+	goimports-reviser cmd/ pkg/
+
 $(BUILD_DIRS):
 	mkdir -p $@
 
