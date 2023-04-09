@@ -1,3 +1,3 @@
-module github.com/thockin/go-build-template
+module github.com/michaelvl/go-build-template
 
 go 1.20
