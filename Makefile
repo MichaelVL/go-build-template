@@ -35,6 +35,10 @@ BASE_IMAGE ?= gcr.io/distroless/static
 # Where to push the docker images.
 REGISTRY ?= ghcr.io/michaelvl
 
+# Credentials to access the registry.
+REGISTRY_USERNAME ?= oauth2accesstoken
+REGISTRY_PASSWORD ?= $$(gcloud auth print-access-token)
+
 # This version-strategy uses git tags to set the version string
 VERSION ?= $(shell git describe --tags --always --dirty)
 #
@@ -302,6 +306,11 @@ $(CONTAINER_DOTFILES): .buildx-initialized
 	    .
 	docker images -q $(REGISTRY)/$(BIN):$(TAG) > $@
 	echo
+
+login: # @HELP configures docker to be authenticated to the defined registry
+	docker login $(REGISTRY)       \
+	    -u "$(REGISTRY_USERNAME)"  \
+	    -p "$(REGISTRY_PASSWORD)"
 
 push: # @HELP pushes the container for one platform ($OS/$ARCH) to the defined registry
 push: container
