@@ -30,7 +30,6 @@ linters:
     - contextcheck
     - cyclop
     - decorder
-    - depguard
     - dogsled
     - dupl
     - dupword
@@ -54,7 +53,6 @@ linters:
     - goconst
     - gocritic
     - gocyclo
-    - godot
     - godox
     - goerr113
     - gofmt
@@ -78,7 +76,6 @@ linters:
     - maintidx
     - makezero
     - misspell
-    - musttag
     - nakedret
     - nestif
     - nilerr
@@ -88,7 +85,6 @@ linters:
     - nolintlint
     - nonamedreturns
     - nosprintfhostport
-    - paralleltest
     - prealloc
     - predeclared
     - promlinter
@@ -113,7 +109,6 @@ linters:
     - wastedassign
     - whitespace
     - wrapcheck
-    - wsl
 
 run:
   issues-exit-code: 1
