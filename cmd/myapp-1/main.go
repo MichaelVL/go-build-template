@@ -21,6 +21,7 @@ import (
 	"log"
 
 	"github.com/michaelvl/go-build-template/pkg/version"
+	_ "github.com/spf13/pflag"
 )
 
 func main() {
